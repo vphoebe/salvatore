@@ -53,5 +53,4 @@ function initBoard()
   placeShip(2)
   placeShip(3)
   placeShip(4)
-  return board
 end

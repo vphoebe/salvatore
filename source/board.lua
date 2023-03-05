@@ -2,23 +2,23 @@ board = {}
 
 function fits(x, y, length, orientation)
   if orientation == 0 then
-    -- vertical
-    if (y + length > 8) then
-      return false
-    elseif (board[x][y + length] ~= 0) then
-      return false
-    else
-      return true
+    for j = 1, length do
+      if (x > 8) or (y + j > 8) then
+        return false
+      elseif (board[x][y + j] ~= 0) then
+        return false
+      end
     end
+    return true
   else
-    -- horizontal
-    if (x + length > 8) then
-      return false
-    elseif (board[x + length][y] ~= 0) then
-      return false
-    else
-      return true
+    for i = 1, length do
+      if (y > 8) or (x + i > 8) then
+        return false
+      elseif (board[x + i][y] ~= 0) then
+        return false
+      end
     end
+    return true
   end
 end
 

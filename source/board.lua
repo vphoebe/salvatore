@@ -1,6 +1,6 @@
 board = {}
 
-function fits(x, y, length, orientation)
+local function fits(x, y, length, orientation)
   if orientation == 0 then
     for j = 1, length do
       if (x > 8) or (y + j > 8) then
@@ -22,7 +22,7 @@ function fits(x, y, length, orientation)
   end
 end
 
-function placeShip(length)
+local function placeShip(length)
   local x, y, orientation
   repeat
     orientation = math.floor((math.random() * 1000) % 2)

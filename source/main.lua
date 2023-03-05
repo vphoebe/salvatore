@@ -1,8 +1,20 @@
 import "CoreLibs/graphics"
+import "grid"
+import "board"
 
-local gfx <const> = playdate.graphics
+local pd <const> = playdate
+local gfx <const> = pd.graphics
 
-function playdate.update() 
-    gfx.clear()
-    gfx.drawText("Hello World", 20, 20)
+function resetGame()
+  gfx.setBackgroundColor(gfx.kColorBlack)
+  gfx.clear()
+  math.randomseed(pd.getSecondsSinceEpoch())
+  drawGrid()
+  initBoard()
+end
+
+resetGame()
+
+function pd.update()
+  gfx.sprite.update()
 end

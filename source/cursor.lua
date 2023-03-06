@@ -2,6 +2,7 @@ import "CoreLibs/graphics"
 import "CoreLibs/sprites"
 import "CoreLibs/object"
 import "grid"
+import "marks"
 
 local pd <const> = playdate
 local gfx <const> = pd.graphics
@@ -17,9 +18,10 @@ class('Cursor').extends(gfx.sprite)
 
 function Cursor:init(i, j)
   Cursor.super.init(self)
-  self.gridPos = { i, j }
+  self.gridI = i
+  self.gridJ = j
   self:setCenter(0, 0)
-  local absoluteCoords = getAbsoluteCoordsFromGridPos(self.gridPos)
+  local absoluteCoords = getAbsoluteCoordsFromGridPos({ self.gridI, self.gridJ })
   local x, y = table.unpack(absoluteCoords)
   self:moveTo(x, y)
   local size = gridSize + 6
@@ -38,15 +40,44 @@ end
 function Cursor:update()
   Cursor.super.update(self)
   if pd.buttonJustPressed(pd.kButtonUp) then
-    self:moveBy(0, -gridSize)
+    local newJPos = self.gridJ - 1
+    if ((newJPos <= 8) and (newJPos > 0)) then
+      self:moveBy(0, -gridSize)
+      self.gridJ = newJPos
+    end
   end
   if pd.buttonJustPressed(pd.kButtonRight) then
-    self:moveBy(gridSize, 0)
+    local newIPos = self.gridI + 1
+    if ((newIPos <= 8) and (newIPos > 0)) then
+      self:moveBy(gridSize, 0)
+      self.gridI = newIPos
+    end
   end
   if pd.buttonJustPressed(pd.kButtonDown) then
-    self:moveBy(0, gridSize)
+    local newJPos = self.gridJ + 1
+    if ((newJPos <= 8) and (newJPos > 0)) then
+      self:moveBy(0, gridSize)
+      self.gridJ = newJPos
+    end
   end
   if pd.buttonJustPressed(pd.kButtonLeft) then
-    self:moveBy(-gridSize, 0)
+    local newIPos = self.gridI - 1
+    if ((newIPos <= 8) and (newIPos > 0)) then
+      self:moveBy(-gridSize, 0)
+      self.gridI = newIPos
+    end
+  end
+  if pd.buttonJustPressed(pd.kButtonA) then
+    gameState.remaining -= 1
+    updateShotDisplay()
+    if gameState.board.board[self.gridI][self.gridJ] ~= 0 then
+      -- hit
+      Mark(self.gridI, self.gridJ, 'O')
+    else
+      -- miss
+      Mark(self.gridI, self.gridJ, 'X')
+    end
+  end
+  if pd.buttonJustPressed(pd.kButtonB) then
   end
 end

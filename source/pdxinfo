@@ -3,5 +3,5 @@ author=vphoebe
 description=Take your shot at sinking some ships.
 bundleID=dev.vphoebe.salvatore
 version=1.0
-imagePath=source/images/system/card.png
-buildNumber=370
+imagePath=images/system
+buildNumber=373

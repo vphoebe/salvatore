@@ -1,26 +1,36 @@
 import "CoreLibs/graphics"
 import "CoreLibs/sprites"
+import "CoreLibs/object"
 
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 
-local scoreSprite
+class('Shot').extends(gfx.sprite)
 
-function createShotDisplay()
-  scoreSprite = gfx.sprite.new()
-  score = gameState.remaining
-  updateShotDisplay()
-  scoreSprite:setCenter(0, 0)
-  scoreSprite:moveTo(4, 4)
-  scoreSprite:add()
+local size = 20
+
+function Shot:init(x, y)
+  Shot.super.init(self)
+  self:moveTo(x, y)
+  local r = size / 2
+  local shotImage = gfx.image.new(size, size)
+  gfx.pushContext(shotImage)
+  gfx.setColor(gfx.kColorWhite)
+  gfx.drawCircleAtPoint(r, r, r)
+  gfx.popContext()
+  self:setImage(shotImage)
+  self:add()
 end
 
-function updateShotDisplay()
-  local scoreText = "Shots: " .. gameState.remaining
-  local textWidth, textHeight = gfx.getTextSize(scoreText)
-  local scoreImage = gfx.image.new(textWidth, textHeight)
-  gfx.pushContext(scoreImage)
-  gfx.drawText(scoreText, 0, 0)
-  gfx.popContext()
-  scoreSprite:setImage(scoreImage)
+function drawShots()
+  local shotOffsetSize = size + 2
+  local xOffset = 24
+  for i=1, 3 do
+    local yOffset = 42
+    for j=1, 8 do
+      Shot(xOffset, yOffset)
+      yOffset += shotOffsetSize
+    end
+    xOffset += shotOffsetSize
+  end
 end

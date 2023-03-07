@@ -27,7 +27,7 @@ end
 
 function Mark:draw()
   local original_draw_mode = gfx.getImageDrawMode()
-  gfx.setImageDrawMode(gfx.kDrawModeCopy)
-  gfx.drawText(self.result, 10, 6)
+  gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
+  gfx.drawText("*" .. self.result .. "*", 10, 6)
   gfx.setImageDrawMode(original_draw_mode)
 end

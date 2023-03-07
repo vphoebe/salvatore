@@ -12,10 +12,11 @@ local gfx <const> = pd.graphics
 class('Game').extends()
 
 function Game:init()
-  gfx.setBackgroundColor(gfx.kColorWhite)
+  gfx.setBackgroundColor(gfx.kColorBlack)
   gfx.clear()
   math.randomseed(pd.getSecondsSinceEpoch())
   drawGrid()
+  drawShots()
   self.board = Board()
   self.remaining = 24
   self.cursor = Cursor(4, 5)
@@ -23,7 +24,6 @@ function Game:init()
 end
 
 gameState = Game()
-createShotDisplay()
 
 function pd.update()
   gfx.sprite.update()

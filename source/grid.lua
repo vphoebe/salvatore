@@ -6,7 +6,7 @@ local pd <const> = playdate
 local gfx <const> = pd.graphics
 
 gridSize = 28
-gridXOffset = 120
+gridXOffset = 110
 gridYOffset = 8
 
 class('GridSquare').extends(gfx.sprite)
@@ -17,8 +17,8 @@ function GridSquare:init(x, y)
   self:moveTo(x, y)
   local sqImage = gfx.image.new(gridSize, gridSize)
   gfx.pushContext(sqImage)
-  gfx.setColor(gfx.kColorBlack)
-  gfx.setLineWidth(1)
+  gfx.setColor(gfx.kColorWhite)
+  gfx.setLineWidth(2)
   gfx.setStrokeLocation(gfx.kStrokeInside)
   gfx.drawRect(0, 0, gridSize, gridSize)
   gfx.popContext()

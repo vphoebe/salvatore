@@ -11,7 +11,7 @@ local function getAbsoluteCoordsFromGridPos(gridPos)
   local i, j = table.unpack(gridPos)
   local x = (i - 1) * gridSize + gridXOffset
   local y = (j - 1) * gridSize + gridYOffset
-  return { x - 3, y - 3 }
+  return { x - 8, y - 8 }
 end
 
 class('Cursor').extends(gfx.sprite)
@@ -24,14 +24,18 @@ function Cursor:init(i, j)
   local absoluteCoords = getAbsoluteCoordsFromGridPos({ self.gridI, self.gridJ })
   local x, y = table.unpack(absoluteCoords)
   self:moveTo(x, y)
-  local size = gridSize + 6
+  local size = gridSize + 16
   local r = (size / 2)
   local cursorImage = gfx.image.new(size, size)
   gfx.pushContext(cursorImage)
-  gfx.setColor(gfx.kColorBlack)
-  gfx.setLineWidth(3)
+  gfx.setColor(gfx.kColorWhite)
+  gfx.setLineWidth(2)
   gfx.setStrokeLocation(gfx.kStrokeInside)
   gfx.drawCircleAtPoint(r, r, r)
+  gfx.setColor(gfx.kColorBlack)
+  gfx.setLineWidth(0)
+  gfx.fillCircleAtPoint(r, r, r - 2)
+  gfx.setColor(gfx.kColorWhite)
   gfx.fillTriangle(size / 2, size / 2, 8, size - 2, size - 8, size - 2)
   gfx.popContext()
   self:setImage(cursorImage)
@@ -69,7 +73,6 @@ function Cursor:update()
   end
   if pd.buttonJustPressed(pd.kButtonA) then
     gameState.remaining -= 1
-    updateShotDisplay()
     if gameState.board.board[self.gridI][self.gridJ] ~= 0 then
       -- hit
       Mark(self.gridI, self.gridJ, 'O')

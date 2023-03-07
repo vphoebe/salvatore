@@ -12,7 +12,7 @@ local function drawShipValue(i, j, value) -- grid coordinates
   debugSprite:setSize(gridSize, gridSize)
   function debugSprite:draw()
     local original_draw_mode = gfx.getImageDrawMode()
-    gfx.setImageDrawMode(gfx.kDrawModeCopy)
+    gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
     gfx.drawText(value, 10, 6)
     gfx.setImageDrawMode(original_draw_mode)
   end

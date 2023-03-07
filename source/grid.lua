@@ -26,9 +26,8 @@ function GridSquare:init(x, y)
   self:add()
 end
 
-local xOffset = gridXOffset
-
 function drawGrid()
+  local xOffset = gridXOffset
   for i=1, 8 do
     local yOffset = gridYOffset
     for j=1, 8 do

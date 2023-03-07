@@ -7,6 +7,7 @@ local gfx <const> = pd.graphics
 
 class('Shot').extends(gfx.sprite)
 class('Counter').extends(gfx.sprite)
+class('EndMsg').extends(gfx.sprite)
 
 local size = 20
 local r = size / 2
@@ -80,4 +81,29 @@ function Counter:update()
   gfx.setImageDrawMode(original_draw_mode)
   gfx.popContext()
   self:setImage(counterImage)
+end
+
+function EndMsg:init()
+  EndMsg.super.init(self)
+  self:setCenter(0,0)
+  self:moveTo(340, 150)
+  local textImage = gfx.image.new(64, 200)
+  gfx.pushContext(textImage)
+    local original_draw_mode = gfx.getImageDrawMode()
+    gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
+    gfx.drawTextInRect("Press B to try again!", 0, 0, 56, 120)
+    gfx.setImageDrawMode(original_draw_mode)
+  gfx.popContext()
+  self:setImage(textImage)
+  self:add()
+end
+
+function EndMsg:update()
+  if pd.buttonJustPressed(pd.kButtonB) then
+    -- reset game logic
+    for k,v in pairs(gfx.sprite.getAllSprites()) do
+      v:remove()
+    end
+    gameState = Game()
+  end
 end

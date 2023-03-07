@@ -16,6 +16,7 @@ function Game:init()
   gfx.clear()
   math.randomseed(pd.getSecondsSinceEpoch())
   drawGrid()
+  self.sunk = 0
   self.ended = false
   self.board = Board()
   self.remaining = 24
@@ -28,11 +29,16 @@ gameState = Game()
 
 function pd.update()
   gfx.sprite.update()
-  if (gameState.remaining == 0) and not gameState.ended then
+  if gameState.sunk == 3 and not gameState.ended then
+    -- handle win
+    gameState.ended = true
+    gameState.cursor:remove()
+    EndMsg(true)
+  elseif (gameState.remaining == 0) and not gameState.ended then
     -- handle game end state
     gameState.ended = true
     gameState.cursor:remove()
     gameState.board:showShips()
-    EndMsg()
+    EndMsg(false)
   end
 end

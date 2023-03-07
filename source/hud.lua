@@ -8,6 +8,7 @@ local gfx <const> = pd.graphics
 class('Shot').extends(gfx.sprite)
 class('Counter').extends(gfx.sprite)
 class('EndMsg').extends(gfx.sprite)
+class('Ship').extends(gfx.sprite)
 
 local size = 20
 local r = size / 2
@@ -83,15 +84,19 @@ function Counter:update()
   self:setImage(counterImage)
 end
 
-function EndMsg:init()
+function EndMsg:init(won)
   EndMsg.super.init(self)
+  local text = "Loser! Press B to try again..."
+  if won then
+    text = "Winner! Press B to play again!"
+  end
   self:setCenter(0,0)
-  self:moveTo(340, 150)
+  self:moveTo(340, 125)
   local textImage = gfx.image.new(64, 200)
   gfx.pushContext(textImage)
     local original_draw_mode = gfx.getImageDrawMode()
     gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-    gfx.drawTextInRect("Press B to try again!", 0, 0, 56, 120)
+    gfx.drawTextInRect(text, 0, 0, 56, 120)
     gfx.setImageDrawMode(original_draw_mode)
   gfx.popContext()
   self:setImage(textImage)
@@ -105,5 +110,55 @@ function EndMsg:update()
       v:remove()
     end
     gameState = Game()
+  end
+end
+
+function Ship:init(x, y, length)
+  Ship.super.init(self)
+  self.length = length
+  self.sunk = false
+  self:moveTo(x, y)
+  self:setCenter(0,0)
+  local shipImage = gfx.image.new(32, 32)
+  gfx.pushContext(shipImage)
+  gfx.setColor(gfx.kColorWhite)
+  gfx.drawRect(0, 0, 32, 32)
+  local original_draw_mode = gfx.getImageDrawMode()
+  gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
+  gfx.drawText(self.length, 12, 8)
+  gfx.setImageDrawMode(original_draw_mode)
+  gfx.popContext()
+  self:setImage(shipImage)
+  self:add()
+end
+
+function Ship:fillIn()
+  local shipImage = gfx.image.new(32, 32)
+  gfx.pushContext(shipImage)
+  gfx.setColor(gfx.kColorWhite)
+  gfx.fillRect(0, 0, 32, 32)
+  local original_draw_mode = gfx.getImageDrawMode()
+  gfx.setImageDrawMode(gfx.kDrawModeFillBlack)
+  gfx.drawText(self.length, 12, 8)
+  gfx.setImageDrawMode(original_draw_mode)
+  gfx.popContext()
+  self:setImage(shipImage)
+end
+
+function Ship:update()
+  if not self.sunk then
+    local shotsTaken = gameState.board.shotsTaken
+    local hits = 0
+    for k,v in pairs(shotsTaken) do
+      local value = v.value
+      if value == self.length then
+        hits += 1
+      end
+    end
+    if hits == self.length then
+      self:fillIn()
+      self.sunk = true
+      gameState.sunk += 1
+    end
   end
 end

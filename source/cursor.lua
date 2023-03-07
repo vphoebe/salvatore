@@ -72,6 +72,7 @@ function Cursor:update()
     end
   end
   if pd.buttonJustPressed(pd.kButtonA) then
+    gameState.shots[gameState.remaining]:unfill()
     gameState.remaining -= 1
     if gameState.board.board[self.gridI][self.gridJ] ~= 0 then
       -- hit
@@ -80,7 +81,5 @@ function Cursor:update()
       -- miss
       Mark(self.gridI, self.gridJ, 'X')
     end
-  end
-  if pd.buttonJustPressed(pd.kButtonB) then
   end
 end

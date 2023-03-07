@@ -16,11 +16,11 @@ function Game:init()
   gfx.clear()
   math.randomseed(pd.getSecondsSinceEpoch())
   drawGrid()
-  drawShots()
   self.board = Board()
   self.remaining = 24
   self.cursor = Cursor(4, 5)
   self.cursor:add()
+  self.shots = drawShots(self.remaining)
 end
 
 gameState = Game()

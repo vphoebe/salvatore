@@ -27,4 +27,9 @@ gameState = Game()
 
 function pd.update()
   gfx.sprite.update()
+  if (gameState.remaining == 0) then
+    -- handle game end state
+    gameState.cursor:remove()
+    gameState.board:showShips()
+  end
 end

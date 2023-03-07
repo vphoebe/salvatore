@@ -2,25 +2,10 @@ import "CoreLibs/graphics"
 import "CoreLibs/sprites"
 import "CoreLibs/object"
 
+import "marks"
+
 local pd <const> = playdate
 local gfx <const> = pd.graphics
-
-local function drawShipValue(i, j, value) -- grid coordinates
-  local x = (i - 1) * gridSize + gridXOffset
-  local y = (j - 1) * gridSize + gridYOffset
-  local debugSprite = gfx.sprite.new()
-  debugSprite:setSize(gridSize, gridSize)
-  function debugSprite:draw()
-    local original_draw_mode = gfx.getImageDrawMode()
-    gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-    gfx.drawText(value, 10, 6)
-    gfx.setImageDrawMode(original_draw_mode)
-  end
-
-  debugSprite:setCenter(0, 0)
-  debugSprite:moveTo(x, y)
-  debugSprite:add()
-end
 
 local function fits(x, y, length, orientation, board)
   if orientation == 0 then
@@ -68,6 +53,7 @@ class('Board').extends()
 function Board:init()
   Board.super.init(self)
   self.board = {}
+  self.shotsTaken = {}
   -- fill in 8x8 matrix with 0
   for x = 1, 8 do
     self.board[x] = {}
@@ -85,7 +71,7 @@ function Board:showShips()
   for i = 1, #self.board do
     for j = 1, #self.board[i] do
       if self.board[i][j] ~= 0 then
-        drawShipValue(i, j, self.board[i][j])
+        Mark(i, j, 'O')
       end
     end
   end

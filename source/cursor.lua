@@ -29,12 +29,12 @@ function Cursor:init(i, j)
   local cursorImage = gfx.image.new(size, size)
   gfx.pushContext(cursorImage)
   gfx.setColor(gfx.kColorWhite)
-  gfx.setLineWidth(2)
+  gfx.setLineWidth(3)
   gfx.setStrokeLocation(gfx.kStrokeInside)
   gfx.drawCircleAtPoint(r, r, r)
   gfx.setColor(gfx.kColorBlack)
   gfx.setLineWidth(0)
-  gfx.fillCircleAtPoint(r, r, r - 2)
+  gfx.fillCircleAtPoint(r, r, r - 3)
   gfx.setColor(gfx.kColorWhite)
   gfx.fillTriangle(size / 2, size / 2, 8, size - 2, size - 8, size - 2)
   gfx.popContext()
@@ -72,14 +72,26 @@ function Cursor:update()
     end
   end
   if pd.buttonJustPressed(pd.kButtonA) then
-    gameState.shots[gameState.remaining]:unfill()
-    gameState.remaining -= 1
-    if gameState.board.board[self.gridI][self.gridJ] ~= 0 then
-      -- hit
-      Mark(self.gridI, self.gridJ, 'O')
-    else
-      -- miss
-      Mark(self.gridI, self.gridJ, 'X')
+    local board = gameState.board
+    local remaining = gameState.remaining
+    local alreadyTried = false
+    for k,v in pairs(board.shotsTaken) do
+      if (v["i"] == self.gridI) and (v["j"] == self.gridJ) then
+        alreadyTried = true
+      end
+    end
+    if not(alreadyTried) then
+      gameState.shots[remaining]:unfill()
+      board.shotsTaken[remaining] = {i = self.gridI, j = self.gridJ}
+      gameState.remaining -= 1
+      local value = board.board[self.gridI][self.gridJ]
+      if value ~= 0 then
+        -- hit
+        Mark(self.gridI, self.gridJ, 'O')
+      else
+        -- miss
+        Mark(self.gridI, self.gridJ, 'X')
+      end
     end
   end
 end

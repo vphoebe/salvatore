@@ -11,8 +11,9 @@ class('Counter').extends(gfx.sprite)
 local size = 20
 local r = size / 2
 
-function Shot:init(x, y)
+function Shot:init(x, y, index)
   Shot.super.init(self)
+  self.index = index
   self:moveTo(x, y)
   local shotImage = gfx.image.new(size, size)
   gfx.pushContext(shotImage)
@@ -21,6 +22,13 @@ function Shot:init(x, y)
   gfx.popContext()
   self:setImage(shotImage)
   self:add()
+end
+
+function Shot:update()
+  local remaining = gameState.remaining
+  if self.index > remaining then
+    self:unfill()
+  end
 end
 
 function Shot:unfill()
@@ -37,17 +45,15 @@ function drawShots(remaining)
   local shotOffsetSize = size + 2
   local xOffset = 30
   local index = 1
-  local shotTable = {}
   for i=1, 3 do
     local yOffset = 50
     for j=1, 8 do
-      shotTable[index] = Shot(xOffset, yOffset)
+      Shot(xOffset, yOffset, index)
       index += 1
       yOffset += shotOffsetSize
     end
     xOffset += shotOffsetSize
   end
-  return shotTable
 end
 
 function Counter:init(remaining)

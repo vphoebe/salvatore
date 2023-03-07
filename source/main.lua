@@ -20,7 +20,7 @@ function Game:init()
   self.remaining = 24
   self.cursor = Cursor(4, 5)
   self.cursor:add()
-  self.shots = drawShots(self.remaining)
+  drawShots(self.remaining)
 end
 
 gameState = Game()

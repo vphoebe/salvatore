@@ -81,10 +81,9 @@ function Cursor:update()
       end
     end
     if not(alreadyTried) then
-      gameState.shots[remaining]:unfill()
-      board.shotsTaken[remaining] = {i = self.gridI, j = self.gridJ}
-      gameState.remaining -= 1
       local value = board.board[self.gridI][self.gridJ]
+      board.shotsTaken[remaining] = {i = self.gridI, j = self.gridJ, value = value}
+      gameState.remaining -= 1
       if value ~= 0 then
         -- hit
         Mark(self.gridI, self.gridJ, 'O')

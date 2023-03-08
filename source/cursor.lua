@@ -81,15 +81,14 @@ function Cursor:update()
     local board = gameState.board
     local remaining = gameState.remaining
     local alreadyTried = false
-    for k,v in pairs(board.shotsTaken) do
+    for k, v in pairs(board.shotsTaken) do
       if (v["i"] == self.gridI) and (v["j"] == self.gridJ) then
         alreadyTried = true
       end
     end
-    if not(alreadyTried) then
+    if not (alreadyTried) then
       local value = board.board[self.gridI][self.gridJ]
-      board.shotsTaken[remaining] = {i = self.gridI, j = self.gridJ, value = value}
-      gameState.remaining -= 1
+      board.shotsTaken[remaining] = { i = self.gridI, j = self.gridJ, value = value }
       if value ~= 0 then
         -- hit
         Mark(self.gridI, self.gridJ, "hit")

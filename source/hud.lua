@@ -8,7 +8,7 @@ local gfx <const> = pd.graphics
 class('Shot').extends(gfx.sprite)
 class('Counter').extends(gfx.sprite)
 class('EndMsg').extends(gfx.sprite)
-class('Ship').extends(gfx.sprite)
+class('ShipIndicator').extends(gfx.sprite)
 
 local size = 20
 local r = size / 2
@@ -118,8 +118,8 @@ function EndMsg:update()
   end
 end
 
-function Ship:init(x, y, length)
-  Ship.super.init(self)
+function ShipIndicator:init(x, y, length)
+  ShipIndicator.super.init(self)
   self.length = length
   self.sunk = false
   self:moveTo(x, y)
@@ -137,7 +137,7 @@ function Ship:init(x, y, length)
   self:add()
 end
 
-function Ship:fillIn()
+function ShipIndicator:fillIn()
   local shipImage = gfx.image.new(32, 32)
   gfx.pushContext(shipImage)
   gfx.setColor(gfx.kColorWhite)
@@ -148,24 +148,4 @@ function Ship:fillIn()
   gfx.setImageDrawMode(original_draw_mode)
   gfx.popContext()
   self:setImage(shipImage)
-end
-
-function Ship:update()
-  if not self.sunk then
-    local shotsTaken = gameState.board.shotsTaken
-    local hits = 0
-    for k,v in pairs(shotsTaken) do
-      local value = v.value
-      if value == self.length then
-        hits += 1
-      end
-    end
-    if hits == self.length then
-      self:fillIn()
-      self.sunk = true
-      gameState.sunk += 1
-      local sound = pd.sound.sampleplayer.new("sound/sunk.wav")
-      sound:play()
-    end
-  end
 end

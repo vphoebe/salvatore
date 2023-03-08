@@ -66,9 +66,6 @@ function Board:init()
   placeShip(2, self.board)
   placeShip(3, self.board)
   placeShip(4, self.board)
-  Ship(356, 8, 2)
-  Ship(356, 44, 3)
-  Ship(356, 80, 4)
 end
 
 function Board:showShips()

@@ -33,6 +33,7 @@ function Mark:init(i, j, type)
   self:add()
   if type ~= "end" then
     self:playSound()
+    gameState.remaining -= 1
   end
 end
 

@@ -4,4 +4,4 @@ description=Take your shot at sinking some ships.
 bundleID=dev.vphoebe.salvatore
 version=1.1.1
 imagePath=images/system
-buildNumber=439
+buildNumber=440

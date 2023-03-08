@@ -55,7 +55,6 @@ function Game:calcSunk()
 end
 
 gameState = Game()
-gameState.board:showShips()
 
 function pd.update()
   gfx.sprite.update()

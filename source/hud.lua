@@ -89,6 +89,11 @@ function EndMsg:init(won)
   local text = "Loser! Press B to try again..."
   if won then
     text = "Winner! Press B to play again!"
+    local sound = pd.sound.sampleplayer.new("sound/winner.wav")
+    sound:play()
+  else
+    local sound = pd.sound.sampleplayer.new("sound/loser.wav")
+    sound:play()
   end
   self:setCenter(0,0)
   self:moveTo(340, 125)
@@ -159,6 +164,8 @@ function Ship:update()
       self:fillIn()
       self.sunk = true
       gameState.sunk += 1
+      local sound = pd.sound.sampleplayer.new("sound/sunk.wav")
+      sound:play()
     end
   end
 end

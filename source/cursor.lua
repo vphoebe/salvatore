@@ -43,11 +43,14 @@ end
 
 function Cursor:update()
   Cursor.super.update(self)
+  local moveSound = pd.sound.sampleplayer.new("sound/cursor.wav")
+  moveSound:setVolume(0.4)
   if pd.buttonJustPressed(pd.kButtonUp) then
     local newJPos = self.gridJ - 1
     if ((newJPos <= 8) and (newJPos > 0)) then
       self:moveBy(0, -gridSize)
       self.gridJ = newJPos
+      moveSound:play()
     end
   end
   if pd.buttonJustPressed(pd.kButtonRight) then
@@ -55,6 +58,7 @@ function Cursor:update()
     if ((newIPos <= 8) and (newIPos > 0)) then
       self:moveBy(gridSize, 0)
       self.gridI = newIPos
+      moveSound:play()
     end
   end
   if pd.buttonJustPressed(pd.kButtonDown) then
@@ -62,6 +66,7 @@ function Cursor:update()
     if ((newJPos <= 8) and (newJPos > 0)) then
       self:moveBy(0, gridSize)
       self.gridJ = newJPos
+      moveSound:play()
     end
   end
   if pd.buttonJustPressed(pd.kButtonLeft) then
@@ -69,6 +74,7 @@ function Cursor:update()
     if ((newIPos <= 8) and (newIPos > 0)) then
       self:moveBy(-gridSize, 0)
       self.gridI = newIPos
+      moveSound:play()
     end
   end
   if pd.buttonJustPressed(pd.kButtonA) then
@@ -86,10 +92,10 @@ function Cursor:update()
       gameState.remaining -= 1
       if value ~= 0 then
         -- hit
-        Mark(self.gridI, self.gridJ, 'O')
+        Mark(self.gridI, self.gridJ, "hit")
       else
         -- miss
-        Mark(self.gridI, self.gridJ, 'X')
+        Mark(self.gridI, self.gridJ, "miss")
       end
     end
   end

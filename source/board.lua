@@ -75,7 +75,7 @@ function Board:showShips()
   for i = 1, #self.board do
     for j = 1, #self.board[i] do
       if self.board[i][j] ~= 0 then
-        Mark(i, j, 'O')
+        Mark(i, j, "end")
       end
     end
   end

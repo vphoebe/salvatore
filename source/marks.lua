@@ -19,7 +19,14 @@ function Mark:init(i, j, type)
   Mark.super.init(self)
   self.type = type
   self:setCenter(0, 0)
-  self:setSize(gridSize, gridSize)
+  local image = gfx.image.new("images/hit")
+  if type == 'end' then
+    image = gfx.image.new("images/end")
+  end
+  if type == 'miss' then
+    image = gfx.image.new("images/miss")
+  end
+  self:setImage(image)
   local absoluteCoords = getAbsoluteCoordsFromGridPos({ i, j })
   local x, y = table.unpack(absoluteCoords)
   self:moveTo(x, y)
@@ -27,17 +34,6 @@ function Mark:init(i, j, type)
   if type ~= "end" then
     self:playSound()
   end
-end
-
-function Mark:draw()
-  local text = 'O'
-  if self.type == "miss" then
-    text = 'X'
-  end
-  local original_draw_mode = gfx.getImageDrawMode()
-  gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-  gfx.drawText("*" .. text .. "*", 10, 6)
-  gfx.setImageDrawMode(original_draw_mode)
 end
 
 function Mark:playSound()

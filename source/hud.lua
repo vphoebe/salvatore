@@ -16,6 +16,7 @@ local r = size / 2
 function Shot:init(x, y, index)
   Shot.super.init(self)
   self.index = index
+  self.filled = true
   self:moveTo(x, y)
   local shotImage = gfx.image.new(size, size)
   gfx.pushContext(shotImage)
@@ -28,7 +29,7 @@ end
 
 function Shot:update()
   local remaining = gameState.remaining
-  if self.index > remaining then
+  if self.index > remaining and self.filled then
     self:unfill()
   end
 end
@@ -40,6 +41,7 @@ function Shot:unfill()
   gfx.drawCircleAtPoint(r, r, r)
   gfx.popContext()
   self:setImage(shotImage)
+  self.filled = false
 end
 
 function drawShots(remaining)

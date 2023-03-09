@@ -60,30 +60,26 @@ function drawShots(remaining)
   end
 end
 
-function Counter:init(remaining)
+function Counter:init()
   Counter.super.init(self)
+  self.shotsTaken = -1 -- allow update to draw initial 0
   self:setCenter(0,0)
   self:moveTo(32, 8)
-  local counterImage = gfx.image.new(32, 32)
-  gfx.pushContext(counterImage)
-  local original_draw_mode = gfx.getImageDrawMode()
-  gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-  gfx.drawText("*" .. remaining .. "*", 10, 6)
-  gfx.setImageDrawMode(original_draw_mode)
-  gfx.popContext()
-  self:setImage(counterImage)
   self:add()
 end
 
 function Counter:update()
-  local counterImage = gfx.image.new(32, 32)
-  gfx.pushContext(counterImage)
-  local original_draw_mode = gfx.getImageDrawMode()
-  gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-  gfx.drawTextAligned("*" .. 24 - gameState.remaining .. "*", 19, 6, kTextAlignment.center)
-  gfx.setImageDrawMode(original_draw_mode)
-  gfx.popContext()
-  self:setImage(counterImage)
+  if 24 - gameState.remaining ~= self.shotsTaken then
+    self.shotsTaken = 24 - gameState.remaining
+    local counterImage = gfx.image.new(32, 32)
+    gfx.pushContext(counterImage)
+    local original_draw_mode = gfx.getImageDrawMode()
+    gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
+    gfx.drawTextAligned("*" .. self.shotsTaken .. "*", 19, 6, kTextAlignment.center)
+    gfx.setImageDrawMode(original_draw_mode)
+    gfx.popContext()
+    self:setImage(counterImage)
+  end
 end
 
 function EndMsg:init(won)

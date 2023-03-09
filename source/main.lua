@@ -9,6 +9,8 @@ import "hud"
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 
+pd.display.setRefreshRate(20)
+
 class('Game').extends()
 
 function Game:init()

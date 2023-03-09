@@ -1,0 +1,12 @@
+{
+  "extension" : {
+    "identifier" : "com.panic.Playdate",
+    "name" : "Playdate"
+  },
+  "extensionTemplate" : "simulator",
+  "extensionValues" : {
+    "playdate.main-path" : "source",
+    "playdate.output-path" : "bin",
+    "playdate.product-name" : "Salvatore"
+  }
+}

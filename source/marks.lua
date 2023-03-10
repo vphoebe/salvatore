@@ -35,6 +35,11 @@ function Mark:init(i, j, type)
     self:playSound()
     gameState.remaining -= 1
   end
+  if type == 'hit' then
+    gameState.shake:setShakeAmount(5)
+  elseif type == 'miss' then
+    gameState.shake:setShakeAmount(2)
+  end
 end
 
 function Mark:playSound()

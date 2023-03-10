@@ -19,9 +19,9 @@ function Game:init()
   math.randomseed(pd.getSecondsSinceEpoch())
   drawGrid()
   self.ships = {
-    ShipIndicator(356, 8, 2),
-    ShipIndicator(356, 44, 3),
-    ShipIndicator(356, 80, 4)
+    ShipIndicator(8, 2),
+    ShipIndicator(44, 3),
+    ShipIndicator(80, 4)
   }
   self.sunk = 0
   self.ended = false
@@ -29,6 +29,7 @@ function Game:init()
   self.remaining = 24
   self.cursor = Cursor(4, 5)
   self.cursor:add()
+  self.shake = ScreenShake()
   drawShots(self.remaining)
 end
 

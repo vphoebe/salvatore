@@ -6,10 +6,11 @@ local pd <const> = playdate
 local gfx <const> = pd.graphics
 
 gridSize = 28
-gridXOffset = 110
+gridXOffset = 100
 gridYOffset = 8
 
 class('GridSquare').extends(gfx.sprite)
+class('GridBorder').extends(gfx.sprite)
 
 function GridSquare:init(x, y)
   GridSquare.super.init(self)
@@ -26,7 +27,23 @@ function GridSquare:init(x, y)
   self:add()
 end
 
+function GridBorder:init()
+  GridBorder.super.init(self)
+  self:setCenter(0,0)
+  self:moveTo(gridXOffset - 1, gridYOffset - 1)
+  local size = gridSize * 8 + 2
+  local gridBorder = gfx.image.new(size, size)
+  gfx.pushContext(gridBorder)
+    gfx.setColor(gfx.kColorWhite)
+    gfx.drawRect(0, 0, size, size)
+  gfx.popContext()
+  self:setImage(gridBorder)
+  self:add()
+end
+
 function drawGrid()
+  -- draw 1px border to make it even
+  GridBorder()
   local xOffset = gridXOffset
   for i=1, 8 do
     local yOffset = gridYOffset

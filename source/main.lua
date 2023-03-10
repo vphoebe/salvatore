@@ -5,6 +5,7 @@ import "grid"
 import "board"
 import "cursor"
 import "hud"
+import "menu"
 
 local pd <const> = playdate
 local gfx <const> = pd.graphics
@@ -57,11 +58,12 @@ function Game:calcSunk()
   end
 end
 
-gameState = Game()
+gameState = nil
+menu = Menu()
 
 function pd.update()
   gfx.sprite.update()
-  if (not gameState.ended) then
+  if (gameState and not gameState.ended) then
     gameState:calcSunk()
     if gameState.remaining == 0 or gameState.sunk == 3 then
       -- handle game end state
